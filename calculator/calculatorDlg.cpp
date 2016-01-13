@@ -53,6 +53,10 @@ CcalculatorDlg::CcalculatorDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CcalculatorDlg::IDD, pParent)
 	, m_str(_T(""))
 {
+	dec= 0;
+	dec2 = 0;
+	dec3 = 0;
+	t = 0;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
@@ -93,6 +97,8 @@ BEGIN_MESSAGE_MAP(CcalculatorDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_Squareroot, &CcalculatorDlg::OnBnClickedSquareroot)
 	ON_BN_CLICKED(IDC_count, &CcalculatorDlg::OnBnClickedcount)
 	ON_BN_CLICKED(IDC_Percent, &CcalculatorDlg::OnBnClickedPercent)
+	ON_BN_CLICKED(IDC_clock, &CcalculatorDlg::OnBnClickedclock)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
@@ -505,3 +511,59 @@ void CcalculatorDlg::OnBnClickedDel()
 }
 
 
+
+
+void CcalculatorDlg::OnBnClickedclock()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	SetTimer(1,1000,NULL);
+}
+
+
+void CcalculatorDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	int x,y,x2,x3,y2,y3;
+
+		CPen newpen(PS_SOLID,2,RGB(0,0,255));
+		CPen minpen(PS_SOLID,6,RGB(0,255,0));
+        CPen hourpen(PS_SOLID,9,RGB(255,0,0));
+		//CPen delpen(PS_SOLID,9,RGB(255,255,255));
+		CPen *oldpen;
+		CClientDC DC(this);
+		DC.SetWindowOrg (-570,-220);
+		DC.Ellipse(-100,100,100,-100);
+		
+
+		DC.TextOutW (-10,-90,L"12");                                 
+		DC.TextOutW(90,-7,L"3");                                      
+		DC.TextOutW(-7,80,L"6");
+		DC.TextOutW (-90,-7,L"9");
+
+
+		DC.SelectObject (&newpen);
+		dec = dec - 3.1415926/30;
+		x = -80*sin(dec);
+		y = -80*cos(dec);
+		DC.MoveTo(0,0);
+		DC.LineTo(x,y);
+	
+	
+		DC.SelectObject(&minpen);
+		dec2 = dec2 - 3.1415926/1800;
+        x2 = -60*sin(dec2);
+		y2 = -60*cos(dec2);
+		DC.MoveTo(0,0);
+		DC.LineTo(x2,y2);
+		
+
+		DC.SelectObject(&hourpen);
+		dec3 = dec3 - 3.1415926/21600;
+		x3 = -40*sin(dec3);
+		y3 = -40*cos(dec3);
+		DC.MoveTo(0,0);
+		DC.LineTo(x3,y3);
+		
+
+	CDialogEx::OnTimer(nIDEvent);
+}

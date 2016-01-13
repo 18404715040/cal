@@ -63,4 +63,8 @@ public:
 	afx_msg void OnBnClickedSquareroot();
 	afx_msg void OnBnClickedcount();
 	afx_msg void OnBnClickedPercent();
+	afx_msg void OnBnClickedclock();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	double dec,dec2,dec3;
+	int t;
 };
